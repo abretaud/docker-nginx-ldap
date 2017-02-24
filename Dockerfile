@@ -27,11 +27,15 @@ RUN mkdir /var/log/nginx \
 	&& git clone https://github.com/kvspb/nginx-auth-ldap.git \
 	&& git clone https://github.com/yaoweibin/ngx_http_substitutions_filter_module.git \
 	&& git clone https://github.com/nginx/nginx.git \
+    && git clone --branch v0.31 https://github.com/openresty/set-misc-nginx-module.git \
+    && git clone --branch v0.3.0 https://github.com/simpl/ngx_devel_kit.git \
 	&& cd ~/nginx \
 	&& git checkout tags/${NGINX_VERSION} \
 	&& ./auto/configure \
 		--add-module=/root/nginx-auth-ldap \
         --add-module=/root/ngx_http_substitutions_filter_module \
+        --add-module=/root/ngx_devel_kit \
+        --add-module=/root/set-misc-nginx-module \
 		--with-http_ssl_module \
 		--with-debug \
 		--conf-path=/etc/nginx/nginx.conf \
