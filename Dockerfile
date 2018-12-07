@@ -1,15 +1,15 @@
-FROM debian:jessie
+FROM debian:stretch
 
 MAINTAINER Anthony Bretaudeau <anthony.bretaudeau@inra.fr>
 
-ENV NGINX_VERSION release-1.11.7
+ENV NGINX_VERSION release-1.15.7
 
 # Use jessie-backports for openssl >= 1.0.2
 # This is required by nginx-auth-ldap when ssl_check_cert is turned on.
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections \
-	&& echo 'deb http://ftp.debian.org/debian/ jessie-backports main' > /etc/apt/sources.list.d/backports.list \
+	&& echo 'deb http://ftp.debian.org/debian/ stretch-backports main' > /etc/apt/sources.list.d/backports.list \
 	&& apt-get update \
-	&& apt-get install -t jessie-backports -y \
+	&& apt-get install -t stretch-backports -y \
 		ca-certificates \
 		git \
 		gcc \
@@ -27,8 +27,8 @@ RUN mkdir /var/log/nginx \
 	&& git clone https://github.com/kvspb/nginx-auth-ldap.git \
 	&& git clone https://github.com/yaoweibin/ngx_http_substitutions_filter_module.git \
 	&& git clone https://github.com/nginx/nginx.git \
-    && git clone --branch v0.31 https://github.com/openresty/set-misc-nginx-module.git \
-    && git clone --branch v0.3.0 https://github.com/simpl/ngx_devel_kit.git \
+    && git clone --branch v0.32 https://github.com/openresty/set-misc-nginx-module.git \
+    && git clone --branch v0.3.1rc1 https://github.com/simpl/ngx_devel_kit.git \
 	&& cd ~/nginx \
 	&& git checkout tags/${NGINX_VERSION} \
 	&& ./auto/configure \
